@@ -3,8 +3,21 @@ const form = document.querySelector("[data-form]");
 const input = document.querySelector("[data-input]");
 const lists = document.querySelector("[data-lists]");
 
+// Local Storage Class Implementation
+class Storage {
+	static addToLocalStorage(todoArr) {
+		let storage = localStorage.setItem("todoRedo", JSON.stringify(todoArr));
+		return storage;
+	}
+
+	static getFromLocalStorage() {
+		let storage = localStorage.getItem("todoRedo") === null ? [] : JSON.parse(localStorage.getItem("todoRedo"));
+		return storage;
+	}
+}
+
 // Empty array to store todos
-let todoArr = [];
+let todoArr = Storage.getFromLocalStorage();
 
 // Add event listener to form
 form.addEventListener('submit', (e) => {
@@ -14,10 +27,14 @@ form.addEventListener('submit', (e) => {
 	let id = Math.random() * 1000000;
 	const todo = new Todo(id, input.value);
 	todoArr = [...todoArr, todo];
+	// Display todo item on UI
 	UI.displayData();
+	// Remove user input from input field on UI
 	UI.clearInput();
-	UI.removeTodo();
-
+	// Delete todo item
+	UI.removeTodoFromUI();
+	// Add todo item to local storage for persistence
+	Storage.addToLocalStorage(todoArr);
 });
 
 // Create a class for todo entry
@@ -42,11 +59,12 @@ class UI {
 		lists.innerHTML = (displayData).join("");
 	}
 
+	// Remove user input from input field once submitted
 	static clearInput() {
 		input.value = "";
 	}
 
-	static removeTodo() {
+	static removeTodoFromUI() {
 		lists.addEventListener('click', (e) => {
 			if(e.target.classList.contains("remove")) {
 				e.target.parentElement.remove();
@@ -59,8 +77,8 @@ class UI {
 	}
 
 	static removeTodoFromArray(id) {
+		// Filter out of todoArray and remove todo item 
+		// targetted by remove request (click on trash icon)
 		todoArr = todoArr.filter((todo) => todo.id !== +id);
 	}
 }
-
-
