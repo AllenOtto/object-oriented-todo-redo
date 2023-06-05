@@ -15,6 +15,9 @@ form.addEventListener('submit', (e) => {
 	const todo = new Todo(id, input.value);
 	todoArr = [...todoArr, todo];
 	UI.displayData();
+	UI.clearInput();
+	UI.removeTodo();
+
 });
 
 // Create a class for todo entry
@@ -32,10 +35,32 @@ class UI {
 			return `
 				<div class="todo">
 					<p>${item.todo}</p>
-					<span data-id=${item.id}>🗑️</span>
+					<span class="remove" data-id=${item.id}>🗑️</span>
 				</div>`
 		});
 
-		lists.innerHTML = (displayData).join(" ");
+		lists.innerHTML = (displayData).join("");
+	}
+
+	static clearInput() {
+		input.value = "";
+	}
+
+	static removeTodo() {
+		lists.addEventListener('click', (e) => {
+			if(e.target.classList.contains("remove")) {
+				e.target.parentElement.remove();
+			}
+
+			// Get id of todo targetted for removal
+			let btnId = e.target.dataset.id;
+			UI.removeTodoFromArray(btnId);
+		});
+	}
+
+	static removeTodoFromArray(id) {
+		todoArr = todoArr.filter((todo) => todo.id !== +id);
 	}
 }
+
+
