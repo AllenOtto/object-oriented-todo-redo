@@ -82,3 +82,8 @@ class UI {
 		todoArr = todoArr.filter((todo) => todo.id !== +id);
 	}
 }
+
+window.addEventListener('DOMContentLoaded', () => {
+	// Display todo item on UI
+	UI.displayData();
+});
