@@ -80,10 +80,12 @@ class UI {
 		// Filter out of todoArray and remove todo item 
 		// targetted by remove request (click on trash icon)
 		todoArr = todoArr.filter((todo) => todo.id !== +id);
+		Storage.addToLocalStorage(todoArr);
 	}
 }
 
 window.addEventListener('DOMContentLoaded', () => {
 	// Display todo item on UI
 	UI.displayData();
+	UI.removeTodoFromUI();
 });
