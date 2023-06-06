@@ -8,7 +8,7 @@ class Storage {
 	static addToLocalStorage(todoArr) {
 		let storage = localStorage.setItem("todoRedo", JSON.stringify(todoArr));
 		return storage;
-	}
+	} 
 
 	static getFromLocalStorage() {
 		let storage = localStorage.getItem("todoRedo") === null ? [] : JSON.parse(localStorage.getItem("todoRedo"));
@@ -52,7 +52,10 @@ class UI {
 			return `
 				<div class="todo">
 					<p>${item.todo}</p>
-					<span class="remove" data-id=${item.id}>🗑️</span>
+					<div>
+						<span class="remove" data-id=${item.id}>🗑️</span>
+						<span class="edit" data-id=${item.id}>🖋️</span>
+					</div>
 				</div>`
 		});
 
@@ -67,7 +70,7 @@ class UI {
 	static removeTodoFromUI() {
 		lists.addEventListener('click', (e) => {
 			if(e.target.classList.contains("remove")) {
-				e.target.parentElement.remove();
+				e.target.parentElement.parentElement.remove();
 			}
 
 			// Get id of todo targetted for removal
