@@ -57,3 +57,7 @@
  .todo span {
     cursor: pointer;
  }
+
+ .todo__text {
+   outline: none;
+ }

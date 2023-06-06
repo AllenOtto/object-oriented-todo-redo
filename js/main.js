@@ -51,12 +51,12 @@ class UI {
 		let displayData = todoArr.map((item) => {
 			return `
 				<div class="todo">
-					<p>${item.todo}</p>
-					<div>
+					<p class="todo__text">${item.todo}</p>
+					<div class="icon">
 						<span class="remove" data-id=${item.id}>🗑️</span>
 						<span class="edit" data-id=${item.id}>🖋️</span>
 					</div>
-				</div>`
+				</div>`;
 		});
 
 		lists.innerHTML = (displayData).join("");
@@ -71,11 +71,10 @@ class UI {
 		lists.addEventListener('click', (e) => {
 			if(e.target.classList.contains("remove")) {
 				e.target.parentElement.parentElement.remove();
+				// Get id of todo targetted for removal
+				let btnId = e.target.dataset.id;
+				UI.removeTodoFromArray(btnId);
 			}
-
-			// Get id of todo targetted for removal
-			let btnId = e.target.dataset.id;
-			UI.removeTodoFromArray(btnId);
 		});
 	}
 
@@ -85,10 +84,33 @@ class UI {
 		todoArr = todoArr.filter((todo) => todo.id !== +id);
 		Storage.addToLocalStorage(todoArr);
 	}
+
+	static editTodo() {
+		let iconChange = true;
+		lists.addEventListener('click', (e) => {
+			if(e.target.classList.contains("edit")) {
+				let p = e.target.parentElement.parentElement.firstElementChild;
+				const btnId = e.target.dataset.id;
+				if(iconChange) {
+					p.setAttribute('contenteditable', 'true');
+					p.focus();
+					e.target.textContent = 'Save';
+					p.style.color = 'blue';
+				} else {
+					e.target.textContent = "🖋️";
+					p.style.color = 'black';
+					p.removeAttribute('contenteditable');
+				}
+			}
+
+			iconChange = !iconChange;
+		});
+	}
 }
 
 window.addEventListener('DOMContentLoaded', () => {
 	// Display todo item on UI
 	UI.displayData();
 	UI.removeTodoFromUI();
+	UI.editTodo();
 });
