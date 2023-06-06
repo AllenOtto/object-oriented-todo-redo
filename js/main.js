@@ -100,6 +100,9 @@ class UI {
 					e.target.textContent = "🖋️";
 					p.style.color = 'black';
 					p.removeAttribute('contenteditable');
+					const index = todoArr.findIndex((item) => item.id === +btnId) ;
+					todoArr[index].todo = p.textContent;
+					Storage.addToLocalStorage(todoArr);
 				}
 			}
 
