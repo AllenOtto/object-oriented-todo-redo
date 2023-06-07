@@ -61,3 +61,17 @@
  .todo__text {
    outline: none;
  }
+
+ .removeAll {
+   text-align: center;
+   padding-top: 1rem;
+ }
+
+ .removeAll__btn {
+   padding: .5rem 1rem;
+   background-color: darkblue;
+   color: #fff;
+   cursor: pointer;
+   border: none;
+   border-radius: 5px;
+ }

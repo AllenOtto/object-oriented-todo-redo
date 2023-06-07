@@ -2,6 +2,7 @@
 const form = document.querySelector("[data-form]");
 const input = document.querySelector("[data-input]");
 const lists = document.querySelector("[data-lists]");
+const removeAllBtn = document.querySelector(".removeAll__btn");
 
 // Local Storage Class Implementation
 class Storage {
@@ -109,6 +110,15 @@ class UI {
 			iconChange = !iconChange;
 		});
 	}
+
+	static removeAll() {
+		removeAllBtn.addEventListener('click', () => {
+			todoArr.length = 0;
+			// localStorage.clear();
+			Storage.addToLocalStorage(todoArr);
+			UI.displayData();
+		});
+	}
 }
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -116,4 +126,5 @@ window.addEventListener('DOMContentLoaded', () => {
 	UI.displayData();
 	UI.removeTodoFromUI();
 	UI.editTodo();
+	UI.removeAll();
 });
