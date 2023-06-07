@@ -36,6 +36,8 @@ form.addEventListener('submit', (e) => {
 	UI.removeTodoFromUI();
 	// Add todo item to local storage for persistence
 	Storage.addToLocalStorage(todoArr);
+	// Don't show btn if there is nothing to remove
+	UI.removeRemoveAllBtn();
 });
 
 // Create a class for todo entry
@@ -75,6 +77,7 @@ class UI {
 				// Get id of todo targetted for removal
 				let btnId = e.target.dataset.id;
 				UI.removeTodoFromArray(btnId);
+				UI.removeRemoveAllBtn();
 			}
 		});
 	}
@@ -117,7 +120,16 @@ class UI {
 			// localStorage.clear();
 			Storage.addToLocalStorage(todoArr);
 			UI.displayData();
+			UI.removeRemoveAllBtn();
 		});
+	}
+
+	static removeRemoveAllBtn() {
+		if(todoArr.length <= 0) {
+			removeAllBtn.style.display = "none";
+		} else {
+			removeAllBtn.style.display = "flex";
+		}
 	}
 }
 
@@ -127,4 +139,6 @@ window.addEventListener('DOMContentLoaded', () => {
 	UI.removeTodoFromUI();
 	UI.editTodo();
 	UI.removeAll();
+	// Don't show the removeAll btn if there is no todo to remove
+	UI.removeRemoveAllBtn();
 });
